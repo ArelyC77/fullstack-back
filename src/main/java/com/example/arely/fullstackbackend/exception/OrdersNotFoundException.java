@@ -1,7 +1,7 @@
 package com.example.arely.fullstackbackend.exception;
 
-public class UserNotFoundException extends RuntimeException {
-    public UserNotFoundException(Long id){
+public class OrdersNotFoundException extends RuntimeException {
+    public OrdersNotFoundException(Long id){
         super("Could not find the user with id "+ id);
     }
 }
