@@ -10,7 +10,7 @@ public class Orders {
     @Id
     @GeneratedValue
     private Long id;
-    private String date;//was username
+    private String dateRequestReceived;//was username
     private String department;//was name
     private Integer shoppingCartNo;//was email
     private Integer poNo; //main table
@@ -43,12 +43,12 @@ public class Orders {
         this.id = id;
     }
 
-    public String getDate() {
-        return date;
+    public String getDateRequestReceived() {
+        return dateRequestReceived;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDateRequestReceived(String dateRequestReceived) {
+        this.dateRequestReceived = dateRequestReceived;
     }
 
     public String getDepartment() {

@@ -36,7 +36,7 @@ public class OrdersController {
     Orders updateOrders(@RequestBody Orders newOrders, @PathVariable Long id){
         return ordersRepository.findById(id)
                 .map(orders -> {
-                    orders.setDate(newOrders.getDate()); //was ordersname
+                    orders.setDateRequestReceived(newOrders.getDateRequestReceived()); //was ordersname
                     orders.setDepartment(newOrders.getDepartment()); //was name
                     orders.setShoppingCartNo(newOrders.getShoppingCartNo());//was email
                     orders.setPoNo(newOrders.getPoNo());
