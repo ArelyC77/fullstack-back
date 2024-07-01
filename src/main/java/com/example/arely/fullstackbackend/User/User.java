@@ -3,6 +3,8 @@ package com.example.arely.fullstackbackend.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +13,8 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
+@Table
+@Data
 public class User implements UserDetails {
     @Id
     private Long employeeID;
