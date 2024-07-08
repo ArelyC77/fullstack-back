@@ -17,7 +17,7 @@ import java.util.List;
 @Data
 public class User implements UserDetails {
     @Id
-    private Long employeeID;
+    private Integer employeeID;
     private String firstName;
     private String lastName;
     private String email;
