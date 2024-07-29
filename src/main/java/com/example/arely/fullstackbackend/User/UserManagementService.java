@@ -33,17 +33,13 @@ public class UserManagementService {
             user.setFirstName(registrationRequest.getFirstName());
             user.setLastName(registrationRequest.getLastName());
             user.setRole(registrationRequest.getRole());
-            user.setPassword(passwordEncoder.encode(registrationRequest.getEmail()));
-            user.setEmployeeID(registrationRequest.getUsers().getEmployeeID());
+            user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+            user.setEmployeeID(registrationRequest.getEmployeeID());
             User userResult = userRepository.save(user);
-            if(userResult.getEmployeeID()>0){
-                response.setUsers(userResult);
-                response.setMessage("User Saved Successfully");
-                response.setStatusCode(200);
-            }
-
-
-        }catch (Exception e){
+            response.setUsers(userResult);
+            response.setMessage("User Saved Successfully");
+            response.setStatusCode(200);
+        } catch (Exception e) {
             response.setStatusCode(500);
             response.setError(e.getMessage());
         }
@@ -93,35 +89,28 @@ public class UserManagementService {
         }
     }
 
-    public RequestResponse getAllUsers(){
+    public RequestResponse getAllUsers() {
         RequestResponse requestResponse = new RequestResponse();
-        try{
+        try {
             List<User> result = userRepository.findAll();
-            if(!result.isEmpty()){
-                requestResponse.setUsersList(result);
-                requestResponse.setStatusCode(200);
-                requestResponse.setMessage("Successful");
-            } else{
-                requestResponse.setStatusCode(404);
-                requestResponse.setMessage("No users found");
-            }
-            return requestResponse;
-
-        }catch (Exception e){
+            requestResponse.setUsersList(result);
+            requestResponse.setStatusCode(result.isEmpty() ? 404 : 200);
+            requestResponse.setMessage(result.isEmpty() ? "No users found" : "Successful");
+        } catch (Exception e) {
             requestResponse.setStatusCode(500);
             requestResponse.setMessage("Error occurred: " + e.getMessage());
-            return requestResponse;
         }
+        return requestResponse;
     }
 
-    public RequestResponse getUsersById(Integer id){
+    public RequestResponse getUsersById(Integer id) {
         RequestResponse requestResponse = new RequestResponse();
-        try{
+        try {
             User userByID = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
             requestResponse.setUsers(userByID);
             requestResponse.setStatusCode(200);
-            requestResponse.setMessage("Users with id: '" + id + "' found successfully");
-        }catch(Exception e){
+            requestResponse.setMessage("User with id: '" + id + "' found successfully");
+        } catch (Exception e) {
             requestResponse.setStatusCode(500);
             requestResponse.setMessage("Error occurred: " + e.getMessage());
         }
@@ -147,21 +136,19 @@ public class UserManagementService {
         return requestResponse;
     }
 
-    public RequestResponse updateUser (Integer employeeID, User updatedUser){
+    public RequestResponse updateUser(Integer employeeID, User updatedUser) {
         RequestResponse requestResponse = new RequestResponse();
-        try{
+        try {
             Optional<User> userOptional = userRepository.findById(employeeID);
-            if(userOptional.isPresent()){
+            if (userOptional.isPresent()) {
                 User existingUser = userOptional.get();
                 existingUser.setEmail(updatedUser.getEmail());
                 existingUser.setFirstName(updatedUser.getFirstName());
                 existingUser.setLastName(updatedUser.getLastName());
                 existingUser.setRole(updatedUser.getRole());
-                existingUser.setEmployeeID(updatedUser.getEmployeeID());//maybe take off?
 
-                //check is password is present in the request
-                if(updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()){
-                    //Encode the password and update it
+                // Check if password is present in the request
+                if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
                     existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
                 }
 
@@ -169,12 +156,11 @@ public class UserManagementService {
                 requestResponse.setUsers(savedUser);
                 requestResponse.setStatusCode(200);
                 requestResponse.setMessage("User updated successfully");
-
-            }else{
+            } else {
                 requestResponse.setStatusCode(404);
                 requestResponse.setMessage("User not found for update");
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             requestResponse.setStatusCode(500);
             requestResponse.setMessage("Error occurred while updating user: " + e.getMessage());
         }
