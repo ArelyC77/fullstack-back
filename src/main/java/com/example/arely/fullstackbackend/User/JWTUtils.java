@@ -21,7 +21,7 @@ public class JWTUtils {
     private static final long EXPIRATION_TIME = 86400000; //24 hours
     //Security Key
     public JWTUtils(){
-        String secretString = "01252003011920151004197308181949";
+        String secretString = "0125200301192015100419730818194923423423423654645756765";
         byte[] keyBytes = Base64.getDecoder().decode(secretString.getBytes(StandardCharsets.UTF_8));
         this.Key = new SecretKeySpec(keyBytes,"HmacSHA256");
     }
